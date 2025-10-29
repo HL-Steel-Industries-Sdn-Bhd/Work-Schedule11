@@ -218,23 +218,23 @@
     });
 
     const projects = [
-      { id: 'project1', name: 'Legoland (004587-40)' },
-      { id: 'project2', name: 'Legoland (004923-3)' },
-      { id: 'project3', name: 'Chefonic (008942-20)' },
-      { id: 'project4', name: 'Chefonic (007476-2)' },
-      { id: 'project5', name: 'Marlborough (007476-32)' }
+      { id: 'project1', name: 'Legoland(004587-40)' },
+      { id: 'project2', name: 'Legoland(004923-3)' },
+      { id: 'project3', name: 'Chefonic(008942-20)' },
+      { id: 'project4', name: 'Chefonic(007476-2)' },
+      { id: 'project5', name: 'Marlborough(007476-32)' }
     ];
 
     const pastelColors = ['#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#E0BBE4', '#C2F0FC'];
-    let soColorMap = {};
+    let projectCodeColorMap = {};
     let colorIndex = 0;
 
     projects.forEach(p => {
-      const soMatch = p.name.match(/SO-\d+/);
-      if (soMatch) {
-        const soNo = soMatch[0];
-        if (!soColorMap[soNo]) {
-          soColorMap[soNo] = pastelColors[colorIndex % pastelColors.length];
+      const codeMatch = p.name.match(/\((\d+)-/);
+      if (codeMatch) {
+        const projectCode = codeMatch[1]; // 提取括号内的数字部分
+        if (!projectCodeColorMap[projectCode]) {
+          projectCodeColorMap[projectCode] = pastelColors[colorIndex % pastelColors.length];
           colorIndex++;
         }
       }
@@ -249,9 +249,9 @@
       projectDiv.id = project.id;
       projectDiv.innerText = project.name;
 
-      const soMatch = project.name.match(/SO-\d+/);
-      if (soMatch && soColorMap[soMatch[0]]) {
-        projectDiv.style.background = soColorMap[soMatch[0]];
+      const codeMatch = project.name.match(/\((\d+)-/);
+      if (codeMatch && projectCodeColorMap[codeMatch[1]]) {
+        projectDiv.style.background = projectCodeColorMap[codeMatch[1]];
       }
 
       projectDiv.setAttribute('draggable', 'true');
@@ -455,9 +455,9 @@
 
       const spanCount = endCol - startCol + 1;
 
-      const soMatch = dragInfo.projectName.match(/SO-\d+/);
-      if (soMatch && soColorMap[soMatch[0]]) {
-        merged.style.background = soColorMap[soMatch[0]];
+      const codeMatch = dragInfo.projectName.match(/\((\d+)-/);
+      if (codeMatch && projectCodeColorMap[codeMatch[1]]) {
+        merged.style.background = projectCodeColorMap[codeMatch[1]];
       }
 
       const first = dragInfo.cells[0];
